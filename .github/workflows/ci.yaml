@@ -28,9 +28,10 @@ name: CI Pipeline for Daydream Travel System
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches: 
+      - main
+      - feature/**
+  pull_request: 
 
 jobs:
   unit-tests:
