@@ -59,3 +59,41 @@ def test_dashboard_requires_login(client):
     """Verifies unauthenticated users cannot access the dashboard."""
     response = client.get('/dashboard', follow_redirects=True)
     assert b'Login' in response.data or b'Please log in' in response.data
+
+def test_dashboard_search_by_destination(client):
+    """
+    Verifies that the dashboard search filters bookings by destination.
+    """
+    # Register and log in
+    client.post('/register', data={
+        'email': 'search@example.com',
+        'password': 'Search123!'
+    })
+
+    client.post('/login', data={
+        'email': 'search@example.com',
+        'password': 'Search123!'
+    })
+
+    # Create a booking
+    client.post('/book', data={
+        'step': '1',
+        'origin': 'London',
+        'destination': 'Paris',
+        'depart_date': '2025-09-01',
+        'return_date': '2025-09-07',
+        'passengers': '1'
+    }, follow_redirects=True)
+
+    client.post('/book', data={
+        'step': '2',
+        'card': '4111111111111111',
+        'expiry': '12/30',
+        'cvv': '123'
+    }, follow_redirects=True)
+
+    # Search for the destination
+    response = client.get('/dashboard?q=Paris')
+
+    assert response.status_code == 200
+    assert b'Paris' in response.data
