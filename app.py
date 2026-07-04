@@ -233,20 +233,31 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/dashboard')
-@login_required
 def dashboard():
     """
     Renders the dashboard page showing user's bookings.
 
-    This function filters the bookings database to find bookings associated with the
-    current user's email from the session, then renders the dashboard template with
-    these bookings.
-
-    Returns:
-        flask.Response: Rendered dashboard.html template with the user's bookings.
+    Supports optional search by destination using the `q` query parameter.
     """
+    if 'email' not in session:
+        flash('Please log in to view your dashboard.', 'error')
+        return redirect(url_for('login'))
+
+    search_query = request.args.get('q', '').strip()
+
     user_bookings = [b for b in bookings_db if b['email'] == session['email']]
-    return render_template('dashboard.html', bookings=user_bookings)
+
+    if search_query:
+        user_bookings = [
+            b for b in user_bookings
+            if search_query.lower() in b.get('destination', '').lower()
+        ]
+
+    return render_template(
+        'dashboard.html',
+        bookings=user_bookings,
+        search_query=search_query
+    )
 
 @app.route('/book', methods=['GET', 'POST'])
 @login_required
