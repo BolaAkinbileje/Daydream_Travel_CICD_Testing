@@ -20,6 +20,7 @@ The demo application includes simplified versions of:
 - User authentication
 - Amenity management
 - Travel itinerary planning
+- Booking search by destination from the user dashboard
 
 ## Getting Started
 To run the application locally:
@@ -36,6 +37,7 @@ Students and practitioners can use this application to practice:
 - UI/UX testing
 - Performance testing
 - Security testing
+- Continuous integration using GitHub Actions
 
 ## License
 This demo application is provided for educational purposes only.
