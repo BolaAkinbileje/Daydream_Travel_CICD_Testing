@@ -49,15 +49,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Unit Tests
+      - name: Run Automated Tests
         run: |
-          pytest tests/unit --junitxml=unit-results.xml
+          pytest tests/unit tests/integration --junitxml=test-results.xml
 
       - name: Upload Unit Test Results
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: unit-results.xml
+          path: test-results.xml
 
   deploy:
     runs-on: ubuntu-latest
