@@ -4,7 +4,26 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+
 .venv/
 venv/
 .env
+
 .vscode/
+
+# Test artifacts
+*.xml
+test-results.xml
+unit-results.xml
+
+# OS files
+Thumbs.db
+
+# Local databases (if ever added)
+*.sqlite3
+
+# Flask cache
+instance/
+
+# Pytest temporary files
+.cache/
